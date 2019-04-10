@@ -1,6 +1,6 @@
 {
   "variables": {
-    "version": "6.1.1",
+    "version": "6.1.3",
     "do_api_token": "{{env `DO_API_TOKEN`}}"
   },
   "builders": [{
