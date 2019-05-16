@@ -1,6 +1,6 @@
 {
   "variables": {
-    "version": "6.1.4",
+    "version": "6.1.6",
     "do_api_token": "{{env `DO_API_TOKEN`}}"
   },
   "builders": [{
@@ -13,6 +13,10 @@
     "snapshot_name": "grafana-v{{user `version`}}-{{timestamp}}"
   }],
   "provisioners": [{
+    "type": "file",
+    "source": "files/99-one-click-grafana",
+    "destination": "/etc/update-motd.d/99-one-click-grafana"
+  }, {
     "type": "shell",
     "inline": [
       "sleep 10",
@@ -21,13 +25,10 @@
       "sudo apt-get update",
       "sudo apt-get install -y grafana={{user `version`}}",
       "systemctl daemon-reload",
-      "systemctl enable grafana-server.service"
+      "systemctl enable grafana-server.service",
+      "chmod +x /etc/update-motd.d/99-one-click-grafana"
     ]
   },{
-    "type": "file",
-    "source": "files/99-one-click-grafana",
-    "destination": "/etc/update-motd.d/99-one-click-grafana"
-  }, {
     "type": "shell",
     "scripts": [
       "scripts/01-clean_image.sh", 
